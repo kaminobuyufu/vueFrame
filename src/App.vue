@@ -1,12 +1,9 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div class="frame">
-    基础构建测试
-  </div>
+	<fakeWindow />
 </template>
 
-<style scoped>
-</style>
+<script setup lang="ts">
+import fakeWindow from "@/layout/fake-window.vue";
+</script>
+
+<style scoped></style>
