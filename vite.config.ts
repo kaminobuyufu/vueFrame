@@ -11,15 +11,16 @@ export default defineConfig({
   plugins: [
     vue(),
     AutoImport({
+      dts:'auto/import.d.ts',
       imports: ['vue'],
       // 第三方组件库的解析器
       resolvers: [ElementPlusResolver()],
     }),
     Components({
-      dirs: ['src/components/'],
+      dts:'auto/components.d.ts',
       // 配置需要将哪些后缀类型的文件进行自动按需引入
       extensions: ['vue'],
-      resolvers: [ElementPlusResolver()],
+      resolvers: [ElementPlusResolver()], 
     }),
   ],
   resolve:{

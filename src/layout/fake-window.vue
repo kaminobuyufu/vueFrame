@@ -2,7 +2,12 @@
 	<div class="main">
 		<div class="header">这里是头部</div>
 		<div class="body">
-			<div class="content">这里是身体</div>
+			<div id="content">
+				<!-- <WindowDialog /> -->
+				<keep-alive>
+					<component v-for="component in componentsList" :key="component.id" :is="component.component"></component>
+        </keep-alive>
+			</div>
 			<div class="side-list">
 				<sideList />
 			</div>
@@ -10,8 +15,31 @@
 	</div>
 </template>
 
-<script setup>
-import sideList from "@/components/fake-window/side-list.vue";
+<script setup lang="ts">
+import { ref, onMounted} from 'vue'
+import sideList from "@/components/fake-window/side-list/side-list.vue"
+import WindowDialog from '@/components/fake-window/window-dialog/dialog.vue'
+const componentsList = [
+	{
+		id: 1,
+		title: "a",
+		message: "qwertyuiop",
+		component:WindowDialog
+	},
+	{
+		id: 2,
+		title: "b",
+		content: "asdfghjkl",
+		component:WindowDialog
+	},
+	{
+		id: 3,
+		title: "c",
+		content: "zxcvbnm",
+		component:WindowDialog
+	},
+]
+
 </script>
 
 <style lang="scss" scoped>
@@ -29,14 +57,18 @@ import sideList from "@/components/fake-window/side-list.vue";
 		position: relative;
 		flex: 1;
 		background-color: skyblue;
-	}
-	.side-list {
+		.content{
+			position: relative;
+			flex: 1;
+		}
+		.side-list {
 		position: absolute;
-		width: 280px;
 		height: 100%;
 		right: 0;
 		top: 0;
-		background-color: yellow;
+		background-color: azure;
 	}
+	}
+
 }
 </style>
