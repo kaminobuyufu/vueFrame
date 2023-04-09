@@ -1,9 +1,9 @@
 <template>
 	<div class="side-list" @mouseleave.stop="detailMessage" @mouseenter.stop="detailMessage">
 		<ul>
-			<li v-for="obj in list" :key="obj.id">
-				<i>{{ obj.title }}</i>
-				<span v-if="unfold">{{ obj.content }}</span>
+			<li v-for="obj in componentsList" :key="obj.id">
+				<i>{{ obj.img }}</i>
+				<span v-if="unfold">{{ obj.title }}</span>
 			</li>
 		</ul>
 	</div>
@@ -11,23 +11,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-const list = [
-	{
-		id: 1,
-		title: "a",
-		content: "qwertyuiop",
-	},
-	{
-		id: 2,
-		title: "b",
-		content: "asdfghjkl",
-	},
-	{
-		id: 3,
-		title: "c",
-		content: "zxcvbnm",
-	},
-]
+
+const { componentsList } = defineProps(['componentsList'])
 const unfold = ref(false)
 const detailMessage = (e:any) => {
 	

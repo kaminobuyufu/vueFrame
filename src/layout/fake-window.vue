@@ -3,43 +3,47 @@
 		<div class="header">这里是头部</div>
 		<div class="body">
 			<div id="content">
-				<!-- <WindowDialog /> -->
-				<keep-alive>
-					<component v-for="component in componentsList" :key="component.id" :is="component.component"></component>
-        </keep-alive>
+				<WindowDialog v-for="component in componentsList" :key="component.id" :prop="component" :zIndex="component.zIndex"/>
 			</div>
 			<div class="side-list">
-				<sideList />
+				<sideList :componentsList="componentsList"/>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted} from 'vue'
+import { ref, onMounted, reactive} from 'vue'
 import sideList from "@/components/fake-window/side-list/side-list.vue"
 import WindowDialog from '@/components/fake-window/window-dialog/dialog.vue'
-const componentsList = [
+import A from '@/components/testVue/a.vue'
+import B from '@/components/testVue/b.vue'
+import C from '@/components/testVue/c.vue'
+import { type FakeWindowItemDate } from '@/type/fake-window'
+const componentsList:FakeWindowItemDate[] = [
 	{
 		id: 1,
 		title: "a",
-		message: "qwertyuiop",
-		component:WindowDialog
+		component:A,
 	},
 	{
 		id: 2,
 		title: "b",
-		content: "asdfghjkl",
-		component:WindowDialog
+		component:B,
 	},
 	{
 		id: 3,
 		title: "c",
-		content: "zxcvbnm",
-		component:WindowDialog
-	},
+		component:C,
+	}
 ]
 
+onMounted(()=>{
+	if(componentsList.length) componentsList.forEach((item,index)=>{
+		item.zIndex = index
+		if(!item.img) item.img = item.title.toUpperCase().charAt(0)
+	})
+})
 </script>
 
 <style lang="scss" scoped>
