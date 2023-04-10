@@ -3,6 +3,9 @@ export interface FakeWindowItemDate {
 		img?: string,
 		title: string,
 		component:any ,
-	  zIndex?:number,
+	  position?:{
+      zIndex:number,
+      offset?:number
+    },
     prop?:any
 }

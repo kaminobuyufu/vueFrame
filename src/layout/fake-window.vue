@@ -3,7 +3,13 @@
 		<div class="header">这里是头部</div>
 		<div class="body">
 			<div id="content">
-				<WindowDialog v-for="component in componentsList" :key="component.id" :prop="component" :zIndex="component.zIndex"/>
+				<WindowDialog 
+					v-for="component in componentsList" 
+					:key="component.id" 
+					:prop="component"
+					:zIndex="component.position?.zIndex"
+					:initOffset="component.position?.offset"
+				/>
 			</div>
 			<div class="side-list">
 				<sideList :componentsList="componentsList"/>
@@ -25,25 +31,41 @@ const componentsList:FakeWindowItemDate[] = [
 		id: 1,
 		title: "a",
 		component:A,
+		prop:{
+			name:'zhangsan'
+		}
 	},
 	{
 		id: 2,
 		title: "b",
 		component:B,
+		prop:{
+			name:'lisi'
+		}
 	},
 	{
 		id: 3,
 		title: "c",
 		component:C,
+		prop:{
+			name:'wangwu'
+		}
 	}
 ]
 
-onMounted(()=>{
+const init = ()=>{
 	if(componentsList.length) componentsList.forEach((item,index)=>{
-		item.zIndex = index
+		item.position = {
+			zIndex:index,
+			offset:20*index
+		}
 		if(!item.img) item.img = item.title.toUpperCase().charAt(0)
 	})
-})
+}
+init()
+// onMounted(()=>{
+// 	init()
+// })
 </script>
 
 <style lang="scss" scoped>
@@ -61,8 +83,9 @@ onMounted(()=>{
 		position: relative;
 		flex: 1;
 		background-color: skyblue;
-		.content{
+		#content{
 			position: relative;
+			height: 100%;
 			flex: 1;
 		}
 		.side-list {
