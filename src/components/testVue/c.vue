@@ -1,7 +1,7 @@
 <template>
   <div class="c-test">
     测试组件c
-    <img src="@/../public/img/youName.jpg" alt="">
+    <img src="@/assets/img/youName.jpg" alt="">
   </div>
 </template>
 

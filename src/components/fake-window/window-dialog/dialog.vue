@@ -1,8 +1,14 @@
 <template>
 	<div class="zb_dialog" ref="container">
-		<keep-alive>
-			<component :is="prop.component" :prop="prop.prop" ></component>
-  	</keep-alive>
+		<header>
+			<h3>{{ prop.title }}</h3>
+
+		</header>
+		<div class="body">
+			<keep-alive>
+				<component :is="prop.component" :prop="prop.prop" ></component>
+  		</keep-alive>
+		</div>
 	</div>
 </template>
 
@@ -12,7 +18,7 @@ import { initZbDialog } from '@/service/set-offset'
 
 const container = ref()
 const { prop, zIndex, initOffset} = defineProps(['prop','zIndex','initOffset'])
-console.log(initOffset)
+console.log(zIndex)
 const dialogVisible = ref(true)
 
 onMounted(()=>{
@@ -27,5 +33,15 @@ onMounted(()=>{
 	position: absolute;
 	z-index: v-bind(zIndex);
 	background-color: #fff;
+	border: 2px solid #686868;
+	user-select:none;
+	header{
+		padding: 0 18px;
+		height: 30px;
+		border-bottom: 2px solid #686868;
+	}
+	.body{
+		padding: 18px;
+	}
 }
 </style>
