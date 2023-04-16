@@ -3,12 +3,14 @@
 		<div class="header">这里是头部</div>
 		<div class="body">
 			<div id="content">
-				<WindowDialog 
-					v-for="component in componentsList" 
-					:key="component.id" 
-					:prop="component"
-					:zIndex="component.position?.zIndex"
-					:initOffset="component.position?.offset"
+				<WindowDialog
+					v-for="item in componentsList" 
+					:key="item.id" 
+					:component="item.component"
+					:title="item.title"
+					:prop="item.prop"
+					:zIndex="item.position?.zIndex"
+					:initOffset="item.position?.offset"
 				/>
 			</div>
 			<div class="side-list">
@@ -19,13 +21,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive} from 'vue'
 import sideList from "@/components/fake-window/side-list/side-list.vue"
 import WindowDialog from '@/components/fake-window/window-dialog/dialog.vue'
 import A from '@/components/testVue/a.vue'
 import B from '@/components/testVue/b.vue'
 import C from '@/components/testVue/c.vue'
 import { type FakeWindowItemDate } from '@/type/fake-window'
+
+const dialogTableVisible = true
+
 const componentsList:FakeWindowItemDate[] = [
 	{
 		id: 1,
@@ -63,9 +67,7 @@ const init = ()=>{
 	})
 }
 init()
-// onMounted(()=>{
-// 	init()
-// })
+
 </script>
 
 <style lang="scss" scoped>
