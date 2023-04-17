@@ -1,7 +1,7 @@
 <template>
 	<div class="side-list" @mouseleave.stop="detailMessage" @mouseenter.stop="detailMessage">
 		<ul>
-			<li v-for="obj in componentsList" :key="obj.id">
+			<li v-for="obj in componentsList" :key="obj.id" @click="openDialog(obj.id)">
 				<i>{{ obj.img }}</i>
 				<span v-if="unfold">{{ obj.title }}</span>
 			</li>
@@ -13,11 +13,17 @@
 import { ref } from "vue"
 
 const { componentsList } = defineProps(['componentsList'])
+const emit = defineEmits(['openItem'])
+
+const openDialog = (id:number) => {
+	console.log(id)
+	emit('openItem', id )
+}
+
 const unfold = ref(false)
 const detailMessage = (e:any) => {
-	
 	unfold.value = !unfold.value
-	}
+}
 </script>
 
 <style lang="scss" scoped>

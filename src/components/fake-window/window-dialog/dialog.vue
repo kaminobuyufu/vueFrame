@@ -1,8 +1,10 @@
 <template>
-	<div class="zb_dialog" ref="container">
+	<div v-show="active" class="zb_dialog" ref="container">
 		<header>
 			<h3>{{ title }}</h3>
-
+			<button @click="shrink">_</button>
+			<button>口</button>
+			<button>X</button>
 		</header>
 		<div class="body">
 			<keep-alive>
@@ -16,14 +18,17 @@
 import { onMounted, ref } from 'vue'
 import { initZbDialog } from '@/service/set-offset'
 
+
 const container = ref()
-const { component, prop, title, zIndex} = defineProps(['component','prop','title','zIndex'])
-const dialogVisible = ref(true)
+const { active, component, prop, title, zIndex} = defineProps(['active','component','prop','title','zIndex'])
+const emit = defineEmits(['shrink','update:active'])
+
+const shrink = () => {
+	emit('update:active',false)
+}
 
 onMounted(()=>{
 	initZbDialog(container.value,zIndex)
-	// console.log(container.value.offsetParent.clientWidth)
-	// console.log(container.value.offsetParent.clientHeight)
 })
 </script>
 
@@ -34,9 +39,18 @@ onMounted(()=>{
 	border: 2px solid #686868;
 	user-select:none;
 	header{
-		padding: 0 18px;
+		display: flex;
 		height: 30px;
 		border-bottom: 2px solid #686868;
+		h3{
+			flex:1;
+			margin:0 18px;
+		}
+		button{
+			height: 22px;
+			width: 22px;
+			margin:3px;
+		}
 	}
 	.body{
 		padding: 18px;

@@ -4,23 +4,25 @@
 		<div class="body">
 			<div id="content">
 				<WindowDialog
-					v-for="item in componentsList" 
+					v-for="item in dialogList" 
 					:key="item.id" 
-					:component="item.component"
+					v-model:active="item.active"
+					@shrink="shrinkItem(item.id)"
+					:component="componentsList[item.component]"
 					:title="item.title"
 					:prop="item.prop"
-					:zIndex="item.position?.zIndex"
-					:initOffset="item.position?.offset"
+					:zIndex="item.zIndex"
 				/>
 			</div>
 			<div class="side-list">
-				<sideList :componentsList="componentsList"/>
+				<sideList :componentsList="dialogList" @openItem="openItem"/>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
+import { Component, reactive, ref, watch, type Ref } from 'vue'
 import sideList from "@/components/fake-window/side-list/side-list.vue"
 import WindowDialog from '@/components/fake-window/window-dialog/dialog.vue'
 import A from '@/components/testVue/a.vue'
@@ -28,13 +30,22 @@ import B from '@/components/testVue/b.vue'
 import C from '@/components/testVue/c.vue'
 import { type FakeWindowItemDate } from '@/type/fake-window'
 
-const dialogTableVisible = true
+interface componentsList {
+	[propName:string]:Component
+}
 
-const componentsList:FakeWindowItemDate[] = [
+const componentsList:componentsList = {
+	'a':A,
+	'b':B,
+	'c':C
+}
+
+const dialogList = reactive<FakeWindowItemDate[]>([
 	{
 		id: 1,
 		title: "a",
-		component:A,
+		component:'a',
+		active:true,
 		prop:{
 			name:'zhangsan'
 		}
@@ -42,7 +53,8 @@ const componentsList:FakeWindowItemDate[] = [
 	{
 		id: 2,
 		title: "b",
-		component:B,
+		component:'b',
+		active:true,
 		prop:{
 			name:'lisi'
 		}
@@ -50,19 +62,30 @@ const componentsList:FakeWindowItemDate[] = [
 	{
 		id: 3,
 		title: "c",
-		component:C,
+		component:'c',
+		active:true,
 		prop:{
 			name:'wangwu'
 		}
 	}
-]
+])
+
+const shrinkItem = (id:number) => {
+	dialogList.forEach((item)=>{
+		if(item.id == id) item.active = false
+	})
+}
+
+const openItem = (id:number) => {
+	dialogList.forEach((item)=>{
+		console.log(item.id == id)
+		if(item.id == id) item.active = true
+	})
+}
 
 const init = ()=>{
-	if(componentsList.length) componentsList.forEach((item,index)=>{
-		item.position = {
-			zIndex:index,
-			offset:20*index
-		}
+	if(dialogList.length) dialogList.forEach((item,index)=>{
+		item.zIndex = index
 		if(!item.img) item.img = item.title.toUpperCase().charAt(0)
 	})
 }
