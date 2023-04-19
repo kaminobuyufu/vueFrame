@@ -18,7 +18,7 @@ const initZbDialog = ( el:any, offset:number)=>{
 
   //初始化弹层拖拽效果
   const header = el.querySelector('header')
-  const headerMove = (event:any)=>{
+  const headerMove = (event:MouseEvent)=>{
     const initEleXY = {
       x:el.offsetLeft,
       y:el.offsetTop
@@ -27,7 +27,7 @@ const initZbDialog = ( el:any, offset:number)=>{
       x:event.x,
       y:event.y
     }
-    const move = (event:any) => {
+    const move = (event:MouseEvent) => {
       el.style.left = initEleXY.x + (event.x - initMouseXY.x) + 'px'
       el.style.top = initEleXY.y + (event.y - initMouseXY.y) + 'px'
     }
@@ -41,7 +41,7 @@ const initZbDialog = ( el:any, offset:number)=>{
   header.addEventListener('mousedown',headerMove)
 
   //初始化弹层层级事件
-  const initOverviewLevel = (e?:Event) => {
+  const initOverviewLevel = () => {
     const currentView = () => {
       const current = el.style.zIndex
       const allDialog =  parent.querySelectorAll('.zb_dialog')
@@ -55,6 +55,12 @@ const initZbDialog = ( el:any, offset:number)=>{
     el.addEventListener('mousedown',currentView)
   }
   initOverviewLevel()
+
+  //初始化全屏事件
+  const fullScreen = () =>{
+    el.requestFullscreen()
+  }
+  el.querySelector('#full_screen').addEventListener('click',fullScreen)
 }
 
 export { initZbDialog }

@@ -7,7 +7,7 @@
 					v-for="item in dialogList" 
 					:key="item.id" 
 					v-model:active="item.active"
-					@shrink="shrinkItem(item.id)"
+					@closeCompontent="closeCompontent(item.id)"
 					:component="componentsList[item.component]"
 					:title="item.title"
 					:prop="item.prop"
@@ -40,7 +40,7 @@ const componentsList:componentsList = {
 	'c':C
 }
 
-const dialogList = reactive<FakeWindowItemDate[]>([
+const dialogList = ref<FakeWindowItemDate[]>([
 	{
 		id: 1,
 		title: "a",
@@ -70,21 +70,24 @@ const dialogList = reactive<FakeWindowItemDate[]>([
 	}
 ])
 
-const shrinkItem = (id:number) => {
-	dialogList.forEach((item)=>{
-		if(item.id == id) item.active = false
+const closeCompontent = (id:number) => {
+	const newArr:FakeWindowItemDate[] = []
+	dialogList.value.forEach((item)=>{
+		if(item.id !== id) newArr.push(item)
 	})
+	dialogList.value = newArr
+	console.log(dialogList.value)
 }
 
 const openItem = (id:number) => {
-	dialogList.forEach((item)=>{
+	dialogList.value.forEach((item)=>{
 		console.log(item.id == id)
 		if(item.id == id) item.active = true
 	})
 }
 
 const init = ()=>{
-	if(dialogList.length) dialogList.forEach((item,index)=>{
+	if(dialogList.value.length) dialogList.value.forEach((item,index)=>{
 		item.zIndex = index
 		if(!item.img) item.img = item.title.toUpperCase().charAt(0)
 	})

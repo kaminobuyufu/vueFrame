@@ -3,8 +3,8 @@
 		<header>
 			<h3>{{ title }}</h3>
 			<button @click="shrink">_</button>
-			<button>口</button>
-			<button>X</button>
+			<button id="full_screen">口</button>
+			<button @click="closeCompontent">X</button>
 		</header>
 		<div class="body">
 			<keep-alive>
@@ -21,10 +21,14 @@ import { initZbDialog } from '@/service/set-offset'
 
 const container = ref()
 const { active, component, prop, title, zIndex} = defineProps(['active','component','prop','title','zIndex'])
-const emit = defineEmits(['shrink','update:active'])
+const emit = defineEmits(['closeCompontent', 'update:active'])
 
 const shrink = () => {
 	emit('update:active',false)
+}
+
+const closeCompontent = () =>{
+	emit('closeCompontent')
 }
 
 onMounted(()=>{
